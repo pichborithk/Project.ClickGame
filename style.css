@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #222;
+  color: white;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+tbody {
+  width: 540px;
+  height: 600px;
+  border: 1px solid #fff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+td {
+  background-color: lightgrey;
+  height: 50px;
+  width: 50px;
+}
+
+td.red {
+  background-color: red;
+}
+
+td.blue {
+  background-color: blue;
+}
+
+td.green {
+  background-color: green;
+}
+
+td.done {
+  background-color: transparent;
+}
