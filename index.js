@@ -1,4 +1,5 @@
 const table = document.querySelector('tbody');
+const buttons = document.querySelectorAll('button');
 const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
 
 function getRandomNumber(array) {
@@ -15,7 +16,15 @@ function makeRow() {
     row.appendChild(square);
     i--;
   }
-  table.appendChild(row);
+  const arrayOfChildren = Array.from(row.querySelectorAll('td'));
+  const deleteRow = arrayOfChildren.every((child) =>
+    child.classList.contains('done')
+  );
+  if (deleteRow) {
+    makeRow();
+  } else {
+    table.appendChild(row);
+  }
 }
 
 function toggleClass(square) {
@@ -26,21 +35,39 @@ function toggleClass(square) {
   return;
 }
 
-function hitSquare(event) {
-  const parent = event.target.parentNode;
-  const arrayOfChildren = Array.from(parent.querySelectorAll('td'));
-  if (event.target.tagName === 'TD') {
-    toggleClass(event.target);
-  }
+function removeRow(square) {
+  const row = square.parentNode;
+  const arrayOfChildren = Array.from(row.querySelectorAll('td'));
   const deleteRow = arrayOfChildren.every((child) =>
     child.classList.contains('done')
   );
   if (deleteRow) {
-    parent.remove();
+    row.remove();
     console.log('success remove 1 row');
   }
 }
 
-makeRow();
+function clickSquare(event) {
+  const square = event.target;
+  if (square.tagName === 'TD') {
+    toggleClass(square);
+    removeRow(square);
+  }
+}
 
-table.addEventListener('click', hitSquare);
+function clickButton() {
+  const color = this.dataset.color;
+  console.log(color);
+  const square = table.querySelector(`.${color}`);
+  if (square) {
+    square.className = 'done';
+    removeRow(square);
+  }
+}
+
+// setInterval(makeRow, 3000);
+// makeRow();
+
+table.addEventListener('click', clickSquare);
+
+buttons.forEach((btn) => btn.addEventListener('click', clickButton));
