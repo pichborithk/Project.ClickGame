@@ -9,51 +9,38 @@ function makeRow() {
   const row = document.createElement('tr');
   let i = 10;
   while (i > 0) {
-    const td = document.createElement('td');
+    const square = document.createElement('td');
     const whichClass = colorArray[getRandomNumber(colorArray)];
-    td.classList.add(whichClass);
-    row.appendChild(td);
+    square.classList.add(whichClass);
+    row.appendChild(square);
     i--;
   }
   table.appendChild(row);
 }
 
-makeRow();
-
-function toggleClass(grid) {
-  const className = grid.className;
-  switch (className) {
-    case 'red':
-      grid.classList.remove('red');
-      grid.classList.add('blue');
-      break;
-    case 'blue':
-      grid.classList.add('green');
-      grid.classList.remove('blue');
-      break;
-    case 'green':
-      grid.classList.remove('green');
-      grid.classList.add('done');
-      break;
-    case 'done':
-      return;
+function toggleClass(square) {
+  const className = square.className;
+  if (className === 'red' || className === 'green' || className === 'blue') {
+    square.className = 'done';
   }
+  return;
 }
 
-table.addEventListener('click', function (event) {
-  const parents = table.querySelectorAll('tr');
+function hitSquare(event) {
+  const parent = event.target.parentNode;
+  const arrayOfChildren = Array.from(parent.querySelectorAll('td'));
   if (event.target.tagName === 'TD') {
     toggleClass(event.target);
   }
-  parents.forEach((child) => {
-    const childArray = Array.from(child.children);
-    // console.log(childArray);
-    const needDelete = childArray.every((element) =>
-      element.classList.contains('done')
-    );
-    if (needDelete) {
-      child.remove();
-      console.log('success remove');
-    }
-  });
-});
+  const deleteRow = arrayOfChildren.every((child) =>
+    child.classList.contains('done')
+  );
+  if (deleteRow) {
+    parent.remove();
+    console.log('success remove 1 row');
+  }
+}
+
+makeRow();
+
+table.addEventListener('click', hitSquare);
