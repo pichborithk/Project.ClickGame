@@ -16,9 +16,7 @@ function playAudio(sound) {
 }
 
 function updateScore() {
-  if (score < 0) {
-    score = 0;
-  }
+  score = score < 0 ? 0 : score;
   const scoreBoard = document.querySelector('#score');
   scoreBoard.innerText = score;
 }
