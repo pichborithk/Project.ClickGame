@@ -28,6 +28,20 @@ tbody {
   justify-content: flex-end;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ffff;
+  margin-bottom: 20px;
+  width: 200px;
+  padding: 5px 10px;
+}
+
+header > span {
+  font-size: 32px;
+}
+
 td {
   background-color: lightgrey;
   height: 50px;

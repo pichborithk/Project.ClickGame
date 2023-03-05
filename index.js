@@ -3,6 +3,7 @@ const buttons = document.querySelectorAll('button');
 const scoreSound = document.querySelector('#score-sound');
 const bumpSound = document.querySelector('#bump-sound');
 const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+let score = 0;
 
 function getRandomNumber(array) {
   return Math.floor(Math.random() * array.length);
@@ -12,6 +13,14 @@ function playAudio(sound) {
   sound.currentTime = 0;
   sound.volume = 0.2;
   sound.play();
+}
+
+function updateScore() {
+  if (score < 0) {
+    score = 0;
+  }
+  const scoreBoard = document.querySelector('#score');
+  scoreBoard.innerText = score;
 }
 
 function makeRow() {
@@ -60,24 +69,31 @@ function clickSquare(event) {
   if (square.tagName === 'TD') {
     if (square.className === 'done') {
       playAudio(bumpSound);
+      score--;
+      updateScore();
       return;
     }
     toggleClass(square);
     playAudio(scoreSound);
+    score++;
+    updateScore();
     removeRow(square);
   }
 }
 
 function clickButton() {
   const color = this.dataset.color;
-  console.log(color);
   const square = table.querySelector(`.${color}`);
   if (square) {
     square.className = 'done';
     playAudio(scoreSound);
+    score++;
+    updateScore();
     removeRow(square);
   } else {
     playAudio(bumpSound);
+    score--;
+    updateScore();
   }
 }
 
