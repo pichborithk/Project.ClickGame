@@ -10,17 +10,51 @@
   </head>
   <body>
     <header>
-      <span>SCORE: </span>
-      <span id="score">0</span>
+      <section class="top-board">
+        <div class="display-score">
+          <span>SCORE: </span>
+          <span id="score">0</span>
+        </div>
+        <div class="display-timer">
+          <span>TIME: </span>
+          <span id="time">0</span>
+        </div>
+      </section>
+      <section class="shop">
+        <div class="grid-item">
+          <h3>BOMB</h3>
+          <img src="./bomb.png" alt="bomb" />
+          <h3>Cost: 5P</h3>
+        </div>
+        <div class="grid-item">
+          <h3>STOP-TIME</h3>
+          <img src="./clock.png" alt="clock" />
+          <h3>Cost: 7P</h3>
+        </div>
+        <div class="grid-item">
+          <h3>COWBOY</h3>
+          <img src="./cowboy.png" alt="cowboy" />
+          <h3>Cost: 7P</h3>
+        </div>
+        <div class="grid-item">
+          <h3>STOP-TIME</h3>
+          <img src="./clock.png" alt="clock" />
+          <h3>Cost: 7P</h3>
+        </div>
+      </section>
+      <section class="footer-board"></section>
     </header>
-    <table>
-      <tbody></tbody>
-    </table>
-    <div class="controller">
-      <button data-color="red">RED</button>
-      <button data-color="blue">BLUE</button>
-      <button data-color="green">GREEN</button>
-    </div>
+    <main>
+      <table>
+        <tbody></tbody>
+      </table>
+      <img src="./bubble-shooter.png" alt="canon" />
+      <div class="controller">
+        <button data-color="red">RED</button>
+        <button data-color="blue">BLUE</button>
+        <button data-color="green">GREEN</button>
+      </div>
+    </main>
     <audio src="./Sound/score sound.mp3" id="score-sound"></audio>
     <audio src="./Sound/bump.mp3" id="bump-sound"></audio>
   </body>
