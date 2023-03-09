@@ -64,8 +64,9 @@ function removeRow(square) {
 
 function clickSquare(event) {
   const square = event.target;
+  const currentRow = table.querySelector('tr');
   if (square.tagName === 'TD') {
-    if (square.className === 'done') {
+    if (square.className === 'done' || square.parentNode !== currentRow) {
       playAudio(bumpSound);
       score--;
       updateScore();
@@ -82,7 +83,6 @@ function clickSquare(event) {
 function clickButton() {
   const color = this.dataset.color;
   const currentRow = table.querySelector('tr');
-  console.log(currentRow);
   const square = currentRow.querySelector(`.${color}`);
   if (square) {
     square.className = 'done';
