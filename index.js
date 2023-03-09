@@ -81,7 +81,9 @@ function clickSquare(event) {
 
 function clickButton() {
   const color = this.dataset.color;
-  const square = table.querySelector(`.${color}`);
+  const currentRow = table.querySelector('tr');
+  console.log(currentRow);
+  const square = currentRow.querySelector(`.${color}`);
   if (square) {
     square.className = 'done';
     playAudio(scoreSound);
@@ -96,6 +98,8 @@ function clickButton() {
 }
 
 // setInterval(makeRow, 3000);
+makeRow();
+makeRow();
 makeRow();
 
 table.addEventListener('click', clickSquare);
