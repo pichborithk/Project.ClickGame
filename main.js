@@ -1,9 +1,54 @@
+const assistSkills = [
+  {
+    id: 0,
+    name: 'BOMB',
+    cost: 5,
+    srcImg: './pictures/bomb.png',
+    ability: function () {
+      if (score < this.cost) {
+        playAudio(bumpSound);
+        return;
+      }
+      score -= this.cost;
+      let count = 0;
+      const row = table.querySelector('tr');
+      const arrayOfSquare = row.childNodes;
+      arrayOfSquare.forEach((square) => {
+        if (square.className !== 'done') {
+          count++;
+        }
+      });
+      score += count;
+      updateScore();
+      playAudio(scoreSound);
+      row.remove();
+    },
+  },
+  { id: 1, name: 'STOP-TIME', cost: 7, srcImg: './pictures/clock.png' },
+  { id: 2, name: 'COWBOY', cost: 5, srcImg: './pictures/cowboy.png' },
+];
+
 const table = document.querySelector('tbody');
 const buttons = document.querySelectorAll('button');
 const scoreSound = document.querySelector('#score-sound');
 const bumpSound = document.querySelector('#bump-sound');
 const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+const shop = document.querySelector('.shop');
 let score = 0;
+
+function renderShop() {
+  for (let skill of assistSkills) {
+    const div = document.createElement('div');
+    div.className = 'grid-item';
+    div.innerHTML = `<h3>${skill.name}</h3>
+    <img src=${skill.srcImg} alt=${skill.name} />
+    <h3>Cost: ${skill.cost}P</h3>`;
+    div.addEventListener('click', skill.ability);
+    shop.appendChild(div);
+  }
+}
+
+renderShop();
 
 function getRandomNumber(array) {
   return Math.floor(Math.random() * array.length);
