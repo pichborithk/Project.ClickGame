@@ -14,22 +14,36 @@ const assistSkills = [
         }
       });
       score += count;
-      updateScore();
       playAudio(scoreSound);
       row.remove();
     },
   },
-  { id: 1, name: 'STOP-TIME', cost: 7, srcImg: './pictures/clock.png' },
+  {
+    id: 1,
+    name: 'STOP-TIME',
+    cost: 7,
+    srcImg: './pictures/clock.png',
+    ability: function () {
+      clearInterval(timerRunning);
+      setTimeout(function () {
+        timerRunning = countdown();
+      }, 3000);
+    },
+  },
   { id: 2, name: 'COWBOY', cost: 7, srcImg: './pictures/cowboy.png' },
 ];
+const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+const bumpSound = document.querySelector('#bump-sound');
+const scoreSound = document.querySelector('#score-sound');
 
 const table = document.querySelector('tbody');
 const buttons = document.querySelectorAll('button');
-const scoreSound = document.querySelector('#score-sound');
-const bumpSound = document.querySelector('#bump-sound');
-const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+const scoreBoard = document.querySelector('#score');
+const timer = document.querySelector('#timer');
 const shop = document.querySelector('.shop');
 let score = 0;
+let time = 60;
+let timerRunning;
 
 function renderShop() {
   for (let skill of assistSkills) {
@@ -45,7 +59,8 @@ function renderShop() {
         return;
       }
       score -= skill.cost;
-      skill.ability;
+      skill.ability();
+      updateScore();
     });
     shop.appendChild(div);
   }
@@ -65,7 +80,6 @@ function playAudio(sound) {
 
 function updateScore() {
   score = score < 0 ? 0 : score;
-  const scoreBoard = document.querySelector('#score');
   scoreBoard.innerText = score;
 }
 
@@ -149,6 +163,19 @@ function clickButton() {
 makeRow();
 makeRow();
 makeRow();
+
+function countdown() {
+  return setInterval(function () {
+    if (!time) {
+      clearInterval(timerRunning);
+      return;
+    }
+    time--;
+    timer.innerText = time;
+  }, 1000);
+}
+
+timerRunning = countdown();
 
 table.addEventListener('click', clickSquare);
 
