@@ -1,9 +1,72 @@
+const assistSkills = [
+  {
+    id: 0,
+    name: 'BOMB',
+    cost: 5,
+    srcImg: './pictures/bomb.png',
+    ability: function () {
+      let count = 0;
+      const row = table.querySelector('tr');
+      const arrayOfSquare = row.childNodes;
+      arrayOfSquare.forEach((square) => {
+        if (square.className !== 'done') {
+          count++;
+        }
+      });
+      score += count;
+      playAudio(scoreSound);
+      row.remove();
+    },
+  },
+  {
+    id: 1,
+    name: 'STOP-TIME',
+    cost: 7,
+    srcImg: './pictures/clock.png',
+    ability: function () {
+      clearInterval(timerRunning);
+      setTimeout(function () {
+        timerRunning = countdown();
+      }, 3000);
+    },
+  },
+  { id: 2, name: 'COWBOY', cost: 7, srcImg: './pictures/cowboy.png' },
+];
+const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+const bumpSound = document.querySelector('#bump-sound');
+const scoreSound = document.querySelector('#score-sound');
+
 const table = document.querySelector('tbody');
 const buttons = document.querySelectorAll('button');
-const scoreSound = document.querySelector('#score-sound');
-const bumpSound = document.querySelector('#bump-sound');
-const colorArray = ['done', 'red', 'done', 'blue', 'done', 'green'];
+const scoreBoard = document.querySelector('#score');
+const timer = document.querySelector('#timer');
+const shop = document.querySelector('.shop');
 let score = 0;
+let time = 60;
+let timerRunning;
+
+function renderShop() {
+  for (let skill of assistSkills) {
+    const div = document.createElement('div');
+    div.className = 'grid-item';
+    div.dataset.cost = skill.cost;
+    div.innerHTML = `<h3>${skill.name}</h3>
+    <img src=${skill.srcImg} alt=${skill.name} />
+    <h3>Cost: ${skill.cost}P</h3>`;
+    div.addEventListener('click', () => {
+      if (score < skill.cost) {
+        playAudio(bumpSound);
+        return;
+      }
+      score -= skill.cost;
+      skill.ability();
+      updateScore();
+    });
+    shop.appendChild(div);
+  }
+}
+
+renderShop();
 
 function getRandomNumber(array) {
   return Math.floor(Math.random() * array.length);
@@ -17,7 +80,6 @@ function playAudio(sound) {
 
 function updateScore() {
   score = score < 0 ? 0 : score;
-  const scoreBoard = document.querySelector('#score');
   scoreBoard.innerText = score;
 }
 
@@ -101,6 +163,19 @@ function clickButton() {
 makeRow();
 makeRow();
 makeRow();
+
+function countdown() {
+  return setInterval(function () {
+    if (!time) {
+      clearInterval(timerRunning);
+      return;
+    }
+    time--;
+    timer.innerText = time;
+  }, 1000);
+}
+
+timerRunning = countdown();
 
 table.addEventListener('click', clickSquare);
 
