@@ -5,11 +5,6 @@ const assistSkills = [
     cost: 5,
     srcImg: './pictures/bomb.png',
     ability: function () {
-      if (score < this.cost) {
-        playAudio(bumpSound);
-        return;
-      }
-      score -= this.cost;
       let count = 0;
       const row = table.querySelector('tr');
       const arrayOfSquare = row.childNodes;
@@ -25,7 +20,7 @@ const assistSkills = [
     },
   },
   { id: 1, name: 'STOP-TIME', cost: 7, srcImg: './pictures/clock.png' },
-  { id: 2, name: 'COWBOY', cost: 5, srcImg: './pictures/cowboy.png' },
+  { id: 2, name: 'COWBOY', cost: 7, srcImg: './pictures/cowboy.png' },
 ];
 
 const table = document.querySelector('tbody');
@@ -40,10 +35,18 @@ function renderShop() {
   for (let skill of assistSkills) {
     const div = document.createElement('div');
     div.className = 'grid-item';
+    div.dataset.cost = skill.cost;
     div.innerHTML = `<h3>${skill.name}</h3>
     <img src=${skill.srcImg} alt=${skill.name} />
     <h3>Cost: ${skill.cost}P</h3>`;
-    div.addEventListener('click', skill.ability);
+    div.addEventListener('click', () => {
+      if (score < skill.cost) {
+        playAudio(bumpSound);
+        return;
+      }
+      score -= skill.cost;
+      skill.ability;
+    });
     shop.appendChild(div);
   }
 }
